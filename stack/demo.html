@@ -1,0 +1,80 @@
+<script src="stack.js"></script>
+<script>
+//开始应用
+
+//1.基本的应用
+// FIFO 
+var stack = new Stack();
+stack.push(1);
+stack.push(2);
+stack.push(3);
+console.log(stack.pop());
+console.log(stack.pop());
+console.log(stack.pop());
+
+
+//2.判断一个数字是否是回文
+//思路  正序和倒序 值一样
+stack.clear();
+var str = "FIOPOIF";
+var arr = str.split("");
+for (var i = 0; i < arr.length; i++) {
+    stack.push(arr[i]);
+}
+
+
+var panlidrome = "";
+for (var i = 0; i < arr.length; i++) {
+    panlidrome += stack.pop();
+}
+
+console.log(str === panlidrome);
+
+
+//3.计算阶乘
+//思路  把1-当前值全部压入栈中
+stack.clear();
+
+for (var i = 1; i <= 5; i++) {
+    stack.push(i);
+}
+
+var sum = 1;
+
+for (var i = 1; i <= 5; i++) {
+    sum *= stack.pop();
+}
+
+console.log(sum);
+
+// 4.计算进制转化
+// 思路  把1-当前值全部压入栈中
+// 1.num % 2  
+// 2.num = num /2 
+// 循环 1、2 步 直到  
+// 16 进制得做特殊处理
+// 关键的一点是 16 进制 为 0到9 A 到 F
+// 2 进制的余数为 0-1 8 进制的余数为0-7  16 进制的余数为 0-9 A-F 
+//   所以比如13 得做个转化 D 
+function baseConverter(num, base) {
+
+    var dig = "0123456789ABCDEF";
+    var stack = new Stack();
+    var reverseNum = '';
+    while (num > 0) {
+        var n = Math.floor(num % base);
+        stack.push(n);
+        num = Math.floor(num / base);
+    }
+
+    while(!stack.isEmpty()){
+    	 //字符串第0 个下标
+         reverseNum += dig[stack.pop()];
+    }
+    return reverseNum;
+}
+
+console.log(baseConverter(100345,2));
+console.log(baseConverter(100345,8));
+console.log(baseConverter(100345,16));
+</script>
